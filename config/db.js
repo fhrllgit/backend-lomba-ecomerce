@@ -1,19 +1,21 @@
-// db.js
-require('dotenv').config(); 
+require('dotenv').config();
 const mysql = require("mysql");
+
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306,
+  connectTimeout: 10000, 
 });
+
 db.connect(err => {
   if (err) {
-    console.error("DB connect error:", err);
-    throw err;
+    console.error("DB connect error:", err.code, err.message);
+    return; 
   }
   console.log("Database connected!");
 });
 
-module.exports = db
+module.exports = db;
