@@ -193,7 +193,7 @@ exports.createProduct = (req, res) => {
   fs.rename(tmpPath, finalTmp, (err) => {
     if (err) res.status(500).json({ message: "Move image failed", error: err });
 
-    const imgUrl = `http://localhost:${port}/uploads/${img}`;
+    const imgUrl = `https://backendlombaecomerce-production.up.railway.app/uploads/${img}`;
     const sqlProducts = `INSERT INTO products (category_id, name, tipe, point, variasi, warna, description, price, discount_price, discount_start, discount_end, img, size_guide) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     db.query(
@@ -222,9 +222,6 @@ exports.createProduct = (req, res) => {
         if (detail_images?.length > 0) {
           const finalImg = [];
           detail_images.forEach((filename) => {
-            // const tmpPath = path.join(__dirname, "../uploads/tmp", filename);
-            // const newFilename = Date.now() + path.extname(filename);
-            // const finalTmp = path.join(__dirname, "../uploads/", newFilename);
             const tmpPath = path.join(__dirname, "../uploads/tmp", filename);
             const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
             const newFilename = uniqueSuffix + path.extname(filename);
@@ -235,7 +232,7 @@ exports.createProduct = (req, res) => {
             } catch (err) {
               console.log("ERROR Rename!", err);
             }
-            const imgUrl = `http://localhost:${port}/uploads/${newFilename}`;
+            const imgUrl = `https://backendlombaecomerce-production.up.railway.app/uploads/${newFilename}`;
             finalImg.push([productId, imgUrl]);
           });
           const sqlImages = `INSERT INTO product_images (product_id, url) VALUES ?`;
@@ -357,12 +354,12 @@ exports.updateProduct = async (req, res) => {
         const tmpPath = path.join(
           __dirname,
           "..",
-          data.Image.replace(`http://localhost:${port}/`, "")
+          data.Image.replace(`https://backendlombaecomerce-production.up.railway.app/`, "")
         );
         const newFilename = path.basename(tmpPath);
         const finalPath = path.join(__dirname, "../uploads", newFilename);
         fs.renameSync(tmpPath, finalPath);
-        data.Image = `http://localhost:${port}/uploads/${newFilename}`;
+        data.Image = `https://backendlombaecomerce-production.up.railway.app//uploads/${newFilename}`;
         console.log("✅ Moved tmp file to uploads:", data.Image);
       } catch (err) {
         console.error("❌ Failed to move image:", err);
@@ -453,13 +450,13 @@ exports.updateProduct = async (req, res) => {
         const oldTmpPath = path.join(
           __dirname,
           "..",
-          data.Image.replace(`http://localhost:${port}/`, "")
+          data.Image.replace(`https://backendlombaecomerce-production.up.railway.app//`, "")
         );
         const newFilename = path.basename(oldTmpPath);
         const newPath = path.join(__dirname, "uploads", newFilename);
 
         fs.renameSync(oldTmpPath, newPath);
-        imgToUse = `http://localhost:${port}/uploads/${newFilename}`;
+        imgToUse = `https://backendlombaecomerce-production.up.railway.app/uploads/${newFilename}`;
         console.log("✅ Moved tmp file to uploads:", imgToUse);
       } catch (moveErr) {
         console.error("❌ Failed to move image from tmp to uploads:", moveErr);
@@ -469,13 +466,13 @@ exports.updateProduct = async (req, res) => {
     } else if (req.files && req.files.singleFile && req.files.singleFile[0]) {
       if (
         oldProduct.img &&
-        oldProduct.img.startsWith("http://localhost:" + port + "/uploads/")
+        oldProduct.img.startsWith("https://backendlombaecomerce-production.up.railway.app/uploads/")
       ) {
         const oldFilename = oldProduct.img.split("/").pop();
         const oldPath = path.join(__dirname, "uploads", oldFilename);
         if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
       }
-      imgToUse = `http://localhost:${port}/uploads/${req.files.singleFile[0].filename}`;
+      imgToUse = `https://backendlombaecomerce-production.up.railway.app/uploads/${req.files.singleFile[0].filename}`;
     }
 
     const updateProductSql = `
@@ -564,7 +561,7 @@ exports.updateProduct = async (req, res) => {
 
   for (const url of newFromJson) {
     if (url.includes("/uploads/tmp/")) {
-      const tmpPath = path.join(__dirname, "..", url.replace(`http://localhost:${port}/`, ""));
+      const tmpPath = path.join(__dirname, "..", url.replace(`https://backendlombaecomerce-production.up.railway.app/`, ""));
       const ext = path.extname(tmpPath);
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
       const newFilename = uniqueSuffix + ext;
@@ -572,7 +569,7 @@ exports.updateProduct = async (req, res) => {
 
       try {
         fs.renameSync(tmpPath, finalPath);
-        const newUrl = `http://localhost:${port}/uploads/${newFilename}`;
+        const newUrl = `https://backendlombaecomerce-production.up.railway.app/uploads/${newFilename}`;
         finalNewImages.push([id, newUrl]);
         console.log("✅ Moved & renamed tmp file:", newUrl);
       } catch (err) {
@@ -601,7 +598,7 @@ exports.updateProduct = async (req, res) => {
       req.files.multipleFile.length > 0
     ) {
       const newFileUrls = req.files.multipleFile.map(
-        (file) => `http://localhost:${port}/uploads/${file.filename}`
+        (file) => `https://backendlombaecomerce-production.up.railway.app/uploads/${file.filename}`
       );
       const values = newFileUrls.map((url) => [id, url]);
       await new Promise((resolve, reject) => {

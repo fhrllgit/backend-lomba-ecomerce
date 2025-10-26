@@ -20,7 +20,7 @@ exports.uploadSingleFile = (req, res) => {
     const targetPath = path.join(tmpDir, req.file.filename);
     fs.renameSync(tempPath, targetPath);
 
-    const fileUrl = `http://localhost:${process.env.PORT || 3005}/uploads/tmp/${req.file.filename}`;
+    const fileUrl = `https://backendlombaecomerce-production.up.railway.app/uploads/tmp/${req.file.filename}`;
     console.log("✅ File uploaded (TMP):", fileUrl);
 
     return res.json({
@@ -51,7 +51,7 @@ exports.uploadMultipleFile = (req, res) => {
       const targetPath = path.join(tmpDir, file.filename);
       fs.renameSync(tempPath, targetPath);
 
-      const fileUrl = `http://localhost:${process.env.PORT || 3005}/uploads/tmp/${file.filename}`;
+      const fileUrl = `https://backendlombaecomerce-production.up.railway.app/uploads/tmp/${file.filename}`;
       console.log("✅ Uploaded detail image:", fileUrl);
       return fileUrl;
     });
