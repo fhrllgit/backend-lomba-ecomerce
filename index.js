@@ -15,12 +15,12 @@ const laporanRoutes = require("./routes/laporanRoutes");
 const app = express()
 const PORT = process.env.PORT || 3005;
 
-
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || "*",
+  origin: "https://ecommerce-fsdr.vercel.app",
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
 
 
 app.use(express.json())
