@@ -39,6 +39,6 @@ app.use("/api/orders", orderRoutes)
 app.use("/api/transactions", transactions)
 app.use("/api/laporan", laporanRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server running 🚀  on http://localhost:${PORT}`)
-})
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`✅ Server running on port ${PORT}`);
+});
