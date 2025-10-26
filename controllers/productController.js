@@ -359,7 +359,7 @@ exports.updateProduct = async (req, res) => {
         const newFilename = path.basename(tmpPath);
         const finalPath = path.join(__dirname, "../uploads", newFilename);
         fs.renameSync(tmpPath, finalPath);
-        data.Image = `https://backendlombaecomerce-production.up.railway.app//uploads/${newFilename}`;
+        data.Image = `https://backendlombaecomerce-production.up.railway.app/uploads/${newFilename}`;
         console.log("✅ Moved tmp file to uploads:", data.Image);
       } catch (err) {
         console.error("❌ Failed to move image:", err);
