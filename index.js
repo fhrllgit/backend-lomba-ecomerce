@@ -13,7 +13,8 @@ const transactions = require("./routes/transaksiRoutes")
 const laporanRoutes = require("./routes/laporanRoutes");
 
 const app = express()
-const PORT = 3005
+const PORT = process.env.PORT || 3005;
+
 
 app.use(cors({
   origin: "http://localhost:5173", 
